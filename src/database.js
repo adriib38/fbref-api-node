@@ -1,6 +1,8 @@
 const mysql = require('mysql2');
 const fs = require('fs');
-require('dotenv').config();
+
+const ca = process.env.SSL_CA_CERTIFICATE;
+const caFormatted = ca.replace(/\\n/g, '\n');
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
@@ -9,13 +11,22 @@ const pool = mysql.createPool({
   database: process.env.DB_DATABASE,
   port: process.env.DB_PORT,
   ssl: {
-    ca: process.env.SSL_CA_CERTIFICATE.replace(/\\n/g, '\n'),
+    ca: caFormatted,
+    minVersion: 'TLSv1.2',
+    rejectUnauthorized: true
   },
   waitForConnections: true,
   connectionLimit: 10,
-  timeout: 10000,
   queueLimit: 0,
 });
 
+pool.getConnection((err, connection) => {
+  if (err) {
+    console.error("Error de conexión:", err);
+  } else {
+    console.log("¡Conexión exitosa!");
+    connection.release();
+  }
+});
 
 module.exports = pool;
