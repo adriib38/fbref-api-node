@@ -19,6 +19,7 @@ const pool = mysql.createPool({
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
+  debug: ['ComQueryPacket', 'RowDataPacket', 'OkPacket', 'ErrorPacket']
 });
 
 pool.getConnection((err, connection) => {
