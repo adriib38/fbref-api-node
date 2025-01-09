@@ -3,6 +3,7 @@ const fs = require('fs');
 
 const ca = process.env.SSL_CA_CERTIFICATE;
 const caFormatted = ca.replace(/\\n/g, '\n');
+console.log("caFormatted", caFormatted);
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
