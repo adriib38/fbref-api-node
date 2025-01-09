@@ -1,9 +1,8 @@
 const mysql = require('mysql2');
 const fs = require('fs');
 
-const ca = process.env.SSL_CA_CERTIFICATE;
-const caFormatted = ca.replace(/\\n/g, '\n');
-console.log("caFormatted", caFormatted);
+//const ca = process.env.SSL_CA_CERTIFICATE;
+
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
@@ -12,7 +11,7 @@ const pool = mysql.createPool({
   database: process.env.DB_DATABASE,
   port: process.env.DB_PORT,
   ssl: {
-    ca: caFormatted,
+    ca: fs.readFileSync("ca-certificate.crt"),
     minVersion: 'TLSv1.2',
     rejectUnauthorized: true
   },
