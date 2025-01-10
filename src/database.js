@@ -1,7 +1,7 @@
 const mysql = require('mysql2');
 const fs = require('fs');
 
-//const ca = process.env.SSL_CA_CERTIFICATE;
+const ca = process.env.SSL_CA_CERTIFICATE ? fs.readFileSync("ca-certificate.crt") : null;
 
 
 const pool = mysql.createPool({
@@ -10,15 +10,15 @@ const pool = mysql.createPool({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   port: process.env.DB_PORT,
-  // ssl: {
-  //   ca: fs.readFileSync("ca-certificate.crt"),
-  //   minVersion: 'TLSv1.2',
-  //   rejectUnauthorized: true
-  // },
-  ssl: false,
+  ssl: {
+    ca: ca,
+    minVersion: 'TLSv1.2',
+    rejectUnauthorized: true
+  },
+  //ssl: false,
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0,
+  queueLimit: 0
 });
 
 pool.getConnection((err, connection) => {
