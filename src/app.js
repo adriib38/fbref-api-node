@@ -7,33 +7,28 @@ const cookieParser = require("cookie-parser");
 
 const app = express();
 
-const allowedOrigin = process.env.CORS_ORIGIN;
+const allowedOrigins = process.env.CORS_ORIGINS?.split(",") || [];
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigin.indexOf(origin) === -1) {
-        const msg = `El CORS no permite el origen: ${origin}`;
-        return callback(new Error(msg), false);
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
       }
-
-      return callback(null, true);
+      const msg = `El CORS no permite el origen: ${origin}`;
+      return callback(new Error(msg), false);
     },
     credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
-    methods: ["GET"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })
 );
 
+app.options("*", cors());
 
 app.use(express.json());
-
 app.use(express.static(path.join(__dirname, "public")));
-
 app.use(logger("tiny"));
-
 app.use(cookieParser());
 
 app.use("/", require("./v1/routers/competitions"));
