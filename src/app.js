@@ -7,7 +7,7 @@ const cookieParser = require("cookie-parser");
 
 const app = express();
 
-const allowedOrigin = process.env.CORS_ORIGINS.split(",");
+const allowedOrigin = process.env.CORS_ORIGIN;
 
 app.use(
   cors({
