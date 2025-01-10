@@ -10,15 +10,15 @@ const pool = mysql.createPool({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   port: process.env.DB_PORT,
-  ssl: {
-    ca: fs.readFileSync("ca-certificate.crt"),
-    minVersion: 'TLSv1.2',
-    rejectUnauthorized: true
-  },
+  // ssl: {
+  //   ca: fs.readFileSync("ca-certificate.crt"),
+  //   minVersion: 'TLSv1.2',
+  //   rejectUnauthorized: true
+  // },
+  ssl: false,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
-  debug: ['ComQueryPacket', 'RowDataPacket', 'OkPacket', 'ErrorPacket']
 });
 
 pool.getConnection((err, connection) => {
