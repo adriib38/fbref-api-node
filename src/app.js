@@ -7,12 +7,12 @@ const cookieParser = require("cookie-parser");
 
 const app = express();
 
-const allowedOrigins = process.env.CORS_ORIGINS?.split(",") || [];
+const allowedOrigin = process.env.CORS_ORIGIN;
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin || allowedOrigin === origin) {
         return callback(null, true);
       }
       const msg = `El CORS no permite el origen: ${origin}`;
