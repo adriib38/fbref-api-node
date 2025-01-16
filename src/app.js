@@ -31,7 +31,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(logger("tiny"));
 app.use(cookieParser());
 
-app.use("/", require("./v1/routers/competitions"));
+app.use("/c", require("./v1/routers/competitions"));
+app.use("/t", require("./v1/routers/teams"));
 
 app.use("/status", async (req, res) => {
   return res.status(200).json({

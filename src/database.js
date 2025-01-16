@@ -1,8 +1,6 @@
 const mysql = require('mysql2');
 const fs = require('fs');
 
-const ca = process.env.SSL_CA_CERTIFICATE ? fs.readFileSync("ca-certificate.crt") : null;
-
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
