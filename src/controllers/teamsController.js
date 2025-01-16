@@ -8,6 +8,7 @@ const getTeamById = (req, res) => {
     if (results.length === 0) {
       return res.status(404).json({ message: "Team not found" });
     }
+
     return res.status(200).json(results);
   });
 }

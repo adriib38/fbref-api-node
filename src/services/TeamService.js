@@ -18,8 +18,8 @@ class Team {
       const leagueTable = results[0].league;
 
       //2. Get league team row
-      const query2 = `SELECT * FROM ?? WHERE squad = ?;`;
-      db.query(query2, [leagueTable, teamName], (err, results) => {
+      const query2 = `SELECT *, ? as league FROM ?? WHERE squad = ?;`;
+      db.query(query2, [leagueTable, leagueTable, teamName], (err, results) => {
         if (err) return callback(err);
 
         callback(null, results[0]);
