@@ -9,7 +9,7 @@ class Competition {
   }
 
   static getStats(c, callback) {
-    let q = `SELECT * FROM stats_${c}`;
+    let q = `SELECT * FROM statsteam_${c}`;
     db.query(q, [c], (err, results) => {
       callback(err, results);
     });
