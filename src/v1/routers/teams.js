@@ -4,6 +4,6 @@ const router = express.Router();
 
 router
   .get("/:teamId", teamsController.getTeamById)
-//   .get("/:teamId", competitionsController.handlerEndpoint)
+  .get("/:teamId/games", teamsController.getGamesByTeam)
 
 module.exports = router;

@@ -26,6 +26,32 @@ class Team {
       });
     });
   }
+
+  static getGamesByTeam(teamName, callback) {
+    //1. Get teams league name
+    const query1 = `
+      SELECT league 
+      FROM master_teams
+      WHERE squad LIKE ?;
+    `;
+
+    db.query(query1, [teamName], (err, results) => {
+      if (err) return callback(err);
+      if (!results || results.length === 0) {
+        return callback(null, []);
+      }
+
+      const leagueTable = results[0].league;
+
+      //2. Get league team row
+      const query2 = `SELECT * FROM ?? WHERE Home = ? OR Away = ?`;
+      db.query(query2, [`games_${leagueTable}`, teamName, teamName], (err, results) => {
+        if (err) return callback(err);
+
+        callback(null, results);
+      });
+    });
+  }
 }
 
 module.exports = Team;
