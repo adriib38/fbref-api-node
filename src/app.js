@@ -16,6 +16,7 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Headers",
     "Content-Type, Authorization, X-Requested-With"
   );
+  res.header("Access-Control-Allow-Credentials", "true");
   next();
 });
 
