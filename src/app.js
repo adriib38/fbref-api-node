@@ -45,6 +45,7 @@ app.use(cookieParser());
 // Rutas principales
 app.use("/c", require("./v1/routers/competitions"));
 app.use("/t", require("./v1/routers/teams"));
+app.use("/g", require("./v1/routers/games"));
 
 // Ruta de estado
 app.use("/status", async (req, res) => {
