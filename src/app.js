@@ -9,6 +9,17 @@ const app = express();
 
 const allowedOrigin = process.env.CORS_ORIGIN;
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", allowedOrigin);
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, X-Requested-With"
+  );
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
+
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -31,15 +42,19 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(logger("tiny"));
 app.use(cookieParser());
 
+// Rutas principales
 app.use("/c", require("./v1/routers/competitions"));
 app.use("/t", require("./v1/routers/teams"));
+app.use("/g", require("./v1/routers/games"));
 
+// Ruta de estado
 app.use("/status", async (req, res) => {
   return res.status(200).json({
     message: "Okay :)",
   });
 });
 
+// Manejo de errores para rutas no encontradas
 app.use((req, res, next) => {
   res.status(404).json({
     error: "Endpoint not Found",

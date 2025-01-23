@@ -26,7 +26,23 @@ const getGamesByTeam = (req, res) => {
   });
 }
 
+const getGamesByQuery = (req, res) => {
+  console.log("getGamesByQuery")
+  Team.getGamesByQuery(req.params.q, (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: "Error getting games by team", error: err });
+    }
+    if (!results || results.length === 0) {
+      return res.status(404).json({ message: "Team not found" });
+    }
+
+    return res.status(200).json(results);
+  });
+}
+
+
 module.exports = {
   getTeamById,
-  getGamesByTeam
+  getGamesByTeam,
+  getGamesByQuery
 };
