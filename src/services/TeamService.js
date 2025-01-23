@@ -63,7 +63,7 @@ class Team {
 
   static getGamesByQuery(q, callback) {
     const query = `
-      SELECT Squad FROM ( SELECT * FROM seriea UNION ALL SELECT * FROM laliga UNION ALL SELECT * FROM hypermotion UNION ALL SELECT * FROM ligue1 UNION ALL SELECT * FROM premierleague UNION ALL SELECT * FROM bundesliga ) t WHERE Squad LIKE ?;
+      SELECT Squad FROM ( SELECT Squad FROM seriea UNION ALL SELECT Squad FROM laliga UNION ALL SELECT Squad FROM hypermotion UNION ALL SELECT Squad FROM ligue1 UNION ALL SELECT Squad FROM premierleague UNION ALL SELECT Squad FROM bundesliga ) t WHERE Squad LIKE ?;
     `;
 
     db.query(query, [`${q}%`], (err, results) => {
