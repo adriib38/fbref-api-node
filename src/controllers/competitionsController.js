@@ -65,6 +65,14 @@ const handlerEndpoint = (req, res) => {
 };
 
 const getClassification = (req, res) => {
+  competitionsAllowed = Object.keys(competitionsListLower);
+  if (!competitionsAllowed.includes(req.params.competitionId)) {
+    return res.status(404).json({
+      message: `Competition "${req.params.competitionId}" not found`,
+      competitionsList,
+    });
+  }
+
   Competition.getClassification(req.params.competitionId, (err, results) => {
     if (err) {
       return res
